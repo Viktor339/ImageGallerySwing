@@ -5,14 +5,22 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.io.File;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class View extends javax.swing.JFrame {
     private static final int WIDTH = 1024;
     private static final int HEIGHT = 768;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    DefaultTableModel model;
+    private DefaultTableModel tableModel;
+    private javax.swing.JButton jButtonBrowseImage;
+
+
+
 
 
 
@@ -21,6 +29,7 @@ public class View extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButtonBrowseImage = new javax.swing.JButton();
 
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
         setTitle("DT Developer Test");
@@ -46,12 +55,14 @@ public class View extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(jTable1);
 
+        jButtonBrowseImage.setText("Open");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButtonBrowseImage)
                                 .addGap(0, 0, Short.MAX_VALUE))
                         .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
@@ -65,6 +76,7 @@ public class View extends javax.swing.JFrame {
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addContainerGap()
+                                .addComponent(jButtonBrowseImage)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 647, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -78,15 +90,17 @@ public class View extends javax.swing.JFrame {
 
 
     public void addTableHeader() {
-        model = (DefaultTableModel) jTable1.getModel();
+        tableModel = (DefaultTableModel) jTable1.getModel();
         Object[] newIdentifiers = new Object[]{"Name", "Image"};
-        model.setColumnIdentifiers(newIdentifiers);
+        tableModel.setColumnIdentifiers(newIdentifiers);
         jTable1.setFillsViewportHeight(true);
         jTable1.getColumn("Image").setCellRenderer(new CellRenderer());
     }
 
     public void getImagesFromFolder() {
-        File folder = new File("C:\\Users\\Viktor\\IdeaProjects\\dt-developer-test\\assets");
+        Path currentRelativePath = Paths.get("");
+        String currentFolderPath = currentRelativePath.toAbsolutePath().toString();
+        File folder = new File(currentFolderPath+"/assets");
         File[] listOfFiles = folder.listFiles();
 
         //get each picture from the folder and display it on UI
@@ -96,7 +110,7 @@ public class View extends javax.swing.JFrame {
                 ImageIcon imageicon = new ImageIcon(file.getPath());
                 Image img = imageicon.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
                 imageLabel.setIcon(new ImageIcon(img));
-                model.addRow(new Object[]{file.getName(), imageLabel});
+                tableModel.addRow(new Object[]{file.getName(), imageLabel});
             }
         }
     }
@@ -116,5 +130,13 @@ public class View extends javax.swing.JFrame {
             jTable1.setRowHeight(120);
             return (Component) value;
         }
+    }
+
+    public void addJButtonListener(ActionListener jButtonListener){
+        jButtonBrowseImage.addActionListener(jButtonListener);
+    }
+
+    public DefaultTableModel getTableModel() {
+        return tableModel;
     }
 }
