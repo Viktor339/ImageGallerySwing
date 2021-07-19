@@ -4,10 +4,6 @@ import com.vizor.test.controller.Controller;
 import com.vizor.test.model.Model;
 import com.vizor.test.view.View;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-import java.awt.Dimension;
-
 public class Main {
 
 

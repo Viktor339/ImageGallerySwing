@@ -7,6 +7,7 @@ import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,7 +15,7 @@ import java.nio.file.Paths;
 public class View extends javax.swing.JFrame {
     private static final int WIDTH = 1024;
     private static final int HEIGHT = 768;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JTable jTable;
     private DefaultTableModel tableModel;
     private javax.swing.JButton jButtonBrowseImage;
@@ -23,7 +24,7 @@ public class View extends javax.swing.JFrame {
 
     public void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jScrollPane = new javax.swing.JScrollPane();
         jTable = new javax.swing.JTable();
         jButtonBrowseImage = new javax.swing.JButton();
         searchTxt = new javax.swing.JTextField();
@@ -50,7 +51,7 @@ public class View extends javax.swing.JFrame {
             }
         });
 
-        jScrollPane1.setViewportView(jTable);
+        jScrollPane.setViewportView(jTable);
 
         jButtonBrowseImage.setText("Open");
 
@@ -64,7 +65,7 @@ public class View extends javax.swing.JFrame {
                         .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 996, Short.MAX_VALUE)
+                                        .addComponent(jScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 996, Short.MAX_VALUE)
                                         .addGroup(layout.createSequentialGroup()
                                                 .addComponent(searchTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(0, 0, Short.MAX_VALUE)))
@@ -78,7 +79,7 @@ public class View extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                                 .addComponent(searchTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 647, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 647, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap())
         );
 
@@ -136,8 +137,12 @@ public class View extends javax.swing.JFrame {
     }
 
     public void addSearchTxtListener(KeyListener keyTxtListener) {
-         searchTxt.addKeyListener(keyTxtListener);
-}
+        searchTxt.addKeyListener(keyTxtListener);
+    }
+
+    public void addJTableMouseListener(MouseAdapter mouseAdapter) {
+        jTable.addMouseListener(mouseAdapter);
+    }
 
     public DefaultTableModel getTableModel() {
         return tableModel;
